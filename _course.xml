@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<course xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../xml/schemas/course.xsd">
+  <title>jQuery Example Course</title>
+  <logo>logo.png</logo>
+  <uuid>9e9a5b48-159d-44e3-b462-52d2347a76f2</uuid>
+  <slug>jquery-pl</slug>
+  <codeType>js</codeType>
+  <taskLayout>frontend</taskLayout>
+  <taskDefaultFiles>
+    <file path="/application.js"/>
+  </taskDefaultFiles>
+  <summary>
+  </summary>
+  <description>
+    Example jQuery Course
+  </description>
+   <solutionFileName>solution.js</solutionFileName>
+  <units>
+    <unit path="001.xml"/>
+    <unit path="002.xml"/>
+  </units>
+  <authors>
+    <author>
+      <name>John Doe</name>
+      <description>Father, developer, coffee fanatic.</description>
+      <img>author.jpg</img>
+    </author>
+  </authors>
+</course>

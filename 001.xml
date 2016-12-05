@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../xml/stylesheets/page.xsl"?>
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" summary="" uuid="7ae3f33d-6e38-4987-b414-fdf15be5311a" title="Pierwsze spotkanie z jQuery" xsi:noNamespaceSchemaLocation="../../../xml/schemas/page.xsd" slug="jq-001">
+
+  <section title="Czym jest jQuery?">
+    <p>
+      **jQuery** to stosunkowo mała i szybka biblioteka JavaScript. Używamy jej przede wszystkim po to, aby ułatwić sobie wykonywanie takich operacji jak zmiana zawartości i atrybutów elementów HTML, wykonywanie animacji na stronie, obsługa zdarzeń (np. kliknięcie przycisku) oraz wykonywanie zapytań AJAX. Właściwie wszystkie te operacje można wykonać przy użyciu czystego kodu JavaScript, jednak w takim przypadku dokonanie tego samego będzie wymagało więcej czasu i wysiłku, dodatkowo będziesz musiał również zadbać o to, aby kod działał dobrze na wszystkich popularnych przeglądarkach.
+    </p>
+  </section>
+
+  <section title="Dlaczego warto nauczyć się i używać jQuery?">
+    <p>
+      Oczywiście jQuery pozwala nam na wygodne wykonywanie powyżej wymienionych operacji. Dzięki niemu możemy również poświecić mniej uwagi, temu na jakiej przeglądarce użytkownik wyświetla naszą stronę. Twórcy jQuery zapewniają, że biblioteka ta działa tak samo na wszystkich popularnych przeglądarkach, w tym Internet Explorer (od wersji 9), a to właśnie z tą przeglądarką twórcy stron internetowych mają najczęściej problemy.
+    </p>
+
+    <p>
+      Oczywiście oprócz jQuery istnieje jeszcze kilka innych bibliotek, które oferują podobne możliwości, jednak to jQuery zyskało największą popularność. Biblioteki tej używają takie firmy jak **Google**, czy **Microsoft**, posiada ona również bardzo dużą społeczność użytkowników oraz wiele przydatnych wtyczek. Można również powiedzieć, że jQuery jest dość prosta w nauce, nie wymaga ona dużej wiedzy na temat programowania.
+    </p>
+
+    <p>
+      Jeśli orientujesz się trochę w środowisku WebDevelopment, to być może słyszałeś o takich frameworkach JavaScript jak **Angular** czy **React**, które zyskały już bardzo dużą popularność. Być może zastanawiasz się, czy w dzisiejszych czasach warto uczyć się jQuery. Według nas odpowiedź brzmi **tak**.
+    </p>
+
+    <p>
+      Popularność tej biblioteki trochę zmalała, jednak jest ona dalej często używana i najprawdopodobniej się to nie zmieni w ciągu najbliższych kilku lat. Powodem tego jest fakt, iż czasami chcemy dodać na stronę jakąś prostą funkcjonalność, do której nie opłaci się używać tak dużych narzędzi jak Angular czy React. Dodatkowo część programistów nawet korzystając w danym projekcie z rozbudowanych frameworków i tak używa jQuery, chociażby do animacji.
+    </p>
+  </section>
+
+  <section title="Instalacja">
+    <p>
+      Wiesz już czym jest jQuery oraz dlaczego warto używać tej biblioteki, nadszedł więc czas, abyś dowiedział się jak dodać ją do Twojej strony.
+    </p>
+
+    <p>
+      Oczywiście rozwiązując zadania z tego kursu na platformie CodeQuack nie musisz samodzielnie dołączać jQuery, już to dla Ciebie zrobiliśmy. Ta część lekcji okaże się jednak bardzo przydatna, gdy będziesz już chciał używać jQuery na swojej stronie internetowej.
+    </p>
+
+    <p>
+      Biblioteka jQuery to właściwie trochę kodu JavaScript, dlatego aby dołączyć ją do strony, należy dołączyć odpowiedni plik. Możemy to jednak zrobić na kilka sposobów, zacznijmy od tych najprostszych.
+    </p>
+
+    <p>
+      Po pierwsze możemy skorzystać z tak zwanej sieci dystrybucji treści (ang. *content distribution network*, w skrócie **CDN**). Sprowadza się to do tego, że na naszej stronie umieścimy odpowiedni link, z którego przy każdym otwarciu strony będzie pobierana biblioteka jQuery. Aby skorzystać z tego sposobu dołączenia biblioteki, należy umieścić poniższy wpis w sekcji `head` kodu strony.
+    </p>
+
+    <code display-as="html" executable="false">
+      <![CDATA[
+      <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+        crossorigin="anonymous"></script>
+      ]]>
+    </code>
+
+    <p>
+      Atrybutu `integrity` i `crossorigin` są używane w celu zagwarantowania, iż pobierany kod nie uległ nieporządnym zmianom. Natomiast `src` to to oczywiście link z którego zostanie załadowana biblioteka.
+    </p>
+
+    <p>
+      Wadą powyższego rozwiązania jest fakt, iż korzystając z niego należy mieć ciągłe połączenie z internetem. Nie jest to problemem gdy strona znajduje się już na serwerze, jednak może Ci to przeszkadzać, gdy będziesz ją uruchamiał na swoim lokalnym komputerze, podczas jej tworzenia.
+    </p>
+
+    <p>
+      Jeśli ta wada Ci przeszkadza, możesz skorzystać z kolejnego sposobu, który polega na pobraniu kodu jQuery z oficjalnej [strony](http://jquery.com/download/). Następnie powinieneś umieścić pobrany plik w folderze zawierającym pliki strony oraz umieścić link do niego w sekcji `head`.
+    </p>
+
+    <code display-as="html" executable="false">
+      <![CDATA[
+      <script src="jquery-3.1.0.min.js"></script>
+      ]]>
+    </code>
+
+    <p>
+      Są to dwa najprostsze sposoby instalacji jQuery, wybierz ten, który Ci bardziej odpowiada. Oczywiście istnieje więcej możliwości instalacji, np. jeśli korzystasz z Ruby on Rails, możesz to zrobić z wykorzystaniem gemu [jquery-rails](https://github.com/rails/jquery-rails), natomiast jeśli używasz npm, to skorzystaj z przygotowanego [pakietu](https://www.npmjs.com/package/jquery).
+    </p>
+
+    <p>
+      Kod który korzysta z jQuery musisz umieścić pod załadowaniem biblioteki, tak aby mógł on z niej korzystać. Przykładowy plik .html może wyglądać następująco.
+    </p>
+
+    <code display-as="html" executable="false">
+      <![CDATA[
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Moja strona używająca jQuery</title>
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+          crossorigin="anonymous"></script>
+        <script type="text/javascript">
+          // Kod JavaScript korzystający z jQuery
+        </script>
+      </head>
+      <body>
+        <h1>Moja strona używająca jQuery</h1>
+      </body>
+      </html>
+      ]]>
+    </code>
+  </section>
+
+  <section title="Pierwsze zadanie">
+    <p>
+      Co prawda nie pokazaliśmy Ci jeszcze jak pisać z użyciem jQuery, jednak w pierwszej lekcji kursu, warto już chociaż uruchomić fragment kodu. W poniższym zadaniu masz do tego okazję.
+    </p>
+
+    <task uuid="faf72673-e008-4faa-ad08-d31968443c2a" type="regular">
+      <desc>
+        W tym zadaniu nie musisz jeszcze pisać samodzielnie kodu. Aby zobaczyć jak działa fragment, który dla Ciebie przygotowaliśmy, kliknij przycisk *Uruchom animację* w sekcji *Wyrenderowana zawartość*.
+
+        Aby zadanie zostało zaliczone, kliknij zielony przycisk *Uruchom i Sprawdź* znajdujący się w lewym dolnym rogu.
+      </desc>
+      <hint>
+        Na razie nie musisz się przejmować tym, jak działa kod tego zadania, już niedługo wszystkiego się dowiesz :)
+      </hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('#animation-btn').click(function() {
+              $('.color-box').animate({
+                left: '200px',
+                fontSize: '3em'
+              }, 2000);
+            });
+          });
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <button id='animation-btn'>Uruchom animację</button>
+          <div class='color-box'>Tekst</div>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          .color-box {
+            margin: 20px;
+            background-color: #E5D9C1;
+            height: 80px;
+            width: 160px;
+            position: absolute;
+            padding: 5px;
+          }
+          ]]>
+        </file>
+        <file path="solution.js">
+          <![CDATA[
+          $(function(){
+            $('#animation-btn').click(function() {
+              $('.color-box').animate({
+                left: '200px',
+                fontSize: '3em'
+              }, 2000);
+            });
+          });
+          ]]>
+        </file>
+      </files>
+      <checker>
+        <![CDATA[
+        function () {
+          return {
+            valid: true,
+            reason: ''
+          }
+        }
+        ]]>
+      </checker>
+    </task>
+  </section>
+
+  <section title="Podsumowanie">
+    <p>
+      W tej lekcji miałeś okazję dowiedzieć się czym jest jQuery oraz dlaczego warto używać tej biblioteki. Pokazaliśmy Ci również, w jaki sposób możesz ją dołączyć do swojej strony. Już za chwilę zajmiemy się tym, na co na pewno czekasz, czyli pisaniem kodu. Zobaczysz podstawową składnię i selektory.
+    </p>
+  </section>
+</document>

@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../xml/stylesheets/page.xsl"?>
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" summary="" uuid="c4e524e3-547e-45be-9952-5660c974ecc9" title="Składnia i selektory" xsi:noNamespaceSchemaLocation="../../../xml/schemas/page.xsd" slug="jq-002">
+
+  <section title="Wstęp">
+    <p>
+      W tym rozdziale rozpoczniemy pisanie kodu JavaScript korzystającego z biblioteki jQuery. Na początek zajmiemy się ogólnie tym, w jaki sposób działa jQuery oraz gdzie umieścić kod, który korzysta z tej biblioteki. Drugą część tej lekcji poświęcimy na selektory, których używa jQuery.
+    </p>
+  </section>
+
+  <section title="Składnia">
+    <p>
+      Korzystając z jQuery najczęściej działamy w następujący sposób: najpierw wybieramy element lub grupę elementów HTML, a następnie wykonujemy na nich jakąś akcję. Takie działanie można przedstawić następującym pseudokodem.
+    </p>
+
+    <code display-as="js" executable="false">
+      $(selektor).akcja()
+    </code>
+
+    <p>
+      Znajdują się w nim 3 elementy:
+    </p>
+
+    <list>
+      <item title="">
+        `$` jest to odwołanie się do obiektu `jQuery`. Znak `$` jest właściwie skrótem, zamiast niego możesz również użyć `jQuery` i efekt będzie taki sam.
+      </item>
+      <item title="">
+        `selektor` służy do wyboru elementu strony, na którym ma zostać wykonana akcja. Jest to najczęściej string, który zawiera selektor CSS. Przed rozpoczęciem nauki jQuery warto znać selektory CSS, jednak jeśli jeszcze nie miałeś okazji się z nimi zapoznać, nie masz się czym przejmować. W drugiej części tego rozdziału znajduje się omówienie tego zagadnienia.
+      </item>
+      <item title="">
+        `akcja` to po porostu jedna z metod dostarczonych przez jQuery, którą chcemy wykonać na wybranym elemencie.
+      </item>
+    </list>
+
+    <p>
+      Aby nie omawiać czegoś tylko teoretycznie, w poniższym przykładzie znajdują się fragmenty kodu JS korzystające z jQuery.
+    </p>
+
+    <code display-as="js" executable="false">
+      $('h1').hide(); // Ukrywa wszystkie elementy h1
+      $('h1').show(); // Pokazuje wszystkie ukryte elementy h1
+      $('.my-class').remove(); // Usuwa wszystkie elementy z klasą 'my-class'
+    </code>
+  </section>
+
+  <section title="Uruchamianie kodu w odpowiednim momencie">
+    <p>
+      Pisząc kod korzystający z jQuery, musimy zwrócić uwagę na to kiedy zostanie on wykonany. Załóżmy, że kod ten wygląda tak jak pokazano poniżej i jest on umieszczony w sekcji `head`.
+    </p>
+
+    <code display-as="js" executable="false">
+      $('h1').hide();
+    </code>
+
+    <p>
+      Jak już wiesz, kod ten ukrywa wszystkie elementy `h1` znajdujące się na stronie. Musisz jednak wiedzieć, że zostanie on wykonany od razu po jego pobraniu przez przeglądarkę internetową, czyli jeszcze przez załadowaniem całej strony. Umieszczając taki kod bezpośrednio w tagu `script` sekcji `head`, najczęściej użytkownik nie zobaczy żadnego efektu, ponieważ kod zostanie wykonany jeszcze przed pełnym załadowaniem sekcji `body`, w której mogą się znaleźć elementy `h1`.
+    </p>
+
+    <p>
+      Z takim problemem można sobie poradzić na dwa sposoby. Po pierwsze możemy umieścić tag `script` z kodem JS na końcu sekcji `body` a nie w `head`. Takie rozwiązanie co prawda spełni swoje zadanie, jednak jest mało optymalne. Samodzielnie tworząc strony internetowe, staramy się raczej umieszczać kod JS w sekcji `head`. Natomiast większość framewroków, takich jak Ruby on Rails automatycznie umieszcza kod JavaScript w sekcji `head`. Oczywiście można to zmienić, jednak istnieje lepsze rozwiązanie tego problemu.
+    </p>
+
+    <p>
+      Drugi sposób polega na wykorzystaniu zdarzenia (ang. *Event*) `Document Ready`. Zdarzenia omówimy sobie dokładnie w jednej z kolejnych lekcji. Na razie wystarczy Ci informacja, że cały kod znajdujący się w poniższej funkcji, zostanie wykonany gdy wystąpi zdarzenie `Document Ready`, czyli gdy zostanie załadowana cała strona.
+    </p>
+
+    <code display-as="js" executable="false">
+      $(document).ready(function(){
+        // Kod uruchamiany po załadowaniu strony
+      });
+    </code>
+
+    <p>
+      Powyższy kod jest na tyle często używany, że powstała nawet jego skrócona wersja, która działa dokładnie tak samo.
+    </p>
+
+    <code display-as="js" executable="false">
+      $(function(){
+        // Kod uruchamiany po załadowaniu strony
+      });
+    </code>
+
+    <p>
+      Jak widzisz wystarczy wykonać `$()`, a jako argument przekazać funkcję anonimową, która zostanie wykonana po wystąpieniu zdarzenia `Document Ready`, czyli po załadowaniu zawartości strony.
+    </p>
+
+    <p>
+      Jeśli będziesz chciał z poziomu Twojego kodu JavaScript umieszczonego w sekcji `head`, ukryć wszystkie elementy `h1`, powinieneś w nim umieścić poniższy kod.
+    </p>
+
+    <task uuid="0134bc00-2876-4e1e-b412-2766d646ef5e" type="example">
+      <desc>
+        Ukrywanie elementu `h1`.
+      </desc>
+      <hint></hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('h1').hide();
+          });
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <h1>Nagłówek 1</h1>
+          <h2>Nagłówek 2</h2>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          ]]>
+        </file>
+      </files>
+    </task>
+
+    <p>
+      Możesz uruchomić powyższy kod, aby zobaczyć, czy elementy `h1` zostały ukryte. Możesz również zastąpić zawartość pliku `application.js` wstawiając tam wyłącznie `$('h1').hide()`. Po uruchomieniu przekonasz się, że w takim przypadku kod nie zadziała.
+    </p>
+
+    <task uuid="4aeb4673-a75c-4d14-beb7-f285e7483a48" type="regular">
+      <desc>
+        Popraw poniższy kod tak, aby po jego uruchomieniu elementy `h2` zostały ukryte.
+      </desc>
+      <hint>
+        <![CDATA[
+        Rozwiązanie tego zadania wygląda podobnie jak przykład pokazany przed nim. Utwórz funkcję anonimową, którą przekażesz do `$()`.
+        ]]>
+      </hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $('h2').hide();
+          ]]>
+        </file>
+        <file path="index.html" readOnly="true">
+          <![CDATA[
+          <h1>Nagłówek</h1>
+          <h2>Nagłówek do ukrycia</h2>
+          <p>Treść akapitu.</p>
+          <h2>Kolejny nagłówek do ukrycia</h2>
+          ]]>
+        </file>
+        <file path="solution.js">
+          <![CDATA[
+          $(function() {
+            $('h2').hide();
+          });
+          ]]>
+        </file>
+      </files>
+      <checker>
+        <![CDATA[
+        function () {
+          var error;
+
+          if ($('h2:visible').length > 0)
+            error = 'Elementy h2 są dalej widoczne na stronie.';
+          else if ($('h2').length < 2 )
+            error = 'Elementy h2 nie powinny zostać usunięte.';
+
+          return {
+            valid: !error,
+            reason: error
+          }
+        }
+        ]]>
+      </checker>
+    </task>
+  </section>
+
+  <section title="Podstawowe Selektory">
+    <p>
+      Na początku tej lekcji dowiedziałeś się, że korzystanie z jQuery polega najczęściej na wyborze pewnej grupy elementów, a następnie wykonaniu na nim pewnej akcji. Do wyboru elementu służą selektory, którym się już za chwilę przyjrzymy.
+    </p>
+
+    <p>
+      Nim jednak do nich przejdziemy, warto jeszcze, abyś poznał metodę `css`. Będziemy  używać do ustawiania właściwości **CSS**. Dzięki niej podczas uruchamiania przykładów, będziesz doskonale widział, jaki element wybrałeś.
+    </p>
+
+    <p>
+      Poniższy kod, który ustawi tło (`background-color`) wszystkich elementów `h1` na kolor czerwony (`red`).
+    </p>
+
+    <task uuid="e2c947e7-6f74-4fdc-a7be-86b28e55acac" type="example">
+      <desc>
+        Ustawienie tła elementu `h1`.
+      </desc>
+      <hint></hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('h1').css('background-color', 'red');
+          });
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <h1>Nagłówek 1</h1>
+          <h2>Nagłówek 2</h2>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          ]]>
+        </file>
+      </files>
+    </task>
+
+    <p>
+      Jak widzisz metoda `css` przyjmuje dwa parametry, pierwszy z nich to nazwa atrybutu css, a drugi, to wartość, która ma być do tego atrybutu przypisana.
+    </p>
+
+    <p>
+      Zajmijmy się już teraz selektorami. Po pierwsze musisz wiedzieć, że są one oparte na selektorach CSS. Co prawda w jQuery występuje trochę dodatkowych selektorów, jednak na początek zupełnie wystarczy znajomość tych z CSS. Jeśli znasz już selektory CSS, to materiał do końca tej lekcji będzie dla Ciebie głównie powtórzeniem znanych już informacji.
+    </p>
+
+    <p>
+      Korzystając z jQuery możemy wybrać elementy na podstawie ich nazwy HTML. W takim przypadku używamy po prostu ciągu znaków, który jest nazwą elementu.
+    </p>
+
+    <task uuid="f3e04392-9032-41fb-9206-7beae8833b5d" type="example">
+      <desc>
+        Ustawienie tła elementów `h1`, `h2` i `p`.
+      </desc>
+      <hint></hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('h1').css('background-color', 'red');
+            $('h2').css('background-color', 'green');
+            $('p').css('background-color', 'blue');
+          });
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <h1>Nagłówek 1</h1>
+          <h2>Nagłówek 2</h2>
+          <p>Paragraf</p>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          ]]>
+        </file>
+      </files>
+    </task>
+
+    <p>
+      Kolejną grupę selektorów stanowią te korzystające z `id`. Na przykład jeśli na stronie znajduje się następujący kod HTML.
+    </p>
+
+    <code display-as="html" executable="false">
+      <![CDATA[
+      <div id="my-element">
+        Blok z id.
+      </div>
+      ]]>
+    </code>
+
+    <p>
+      To aby wybrać powyższy element możesz użyć poniższego selektora.
+    </p>
+
+    <task uuid="7e45ded1-961e-4017-a5ca-c28a427e9d86" type="example">
+      <desc>
+        Wybór elementu na podstawie `id`.
+      </desc>
+      <hint></hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('#my-element').css('background-color', 'PowderBlue');
+          });
+
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <div id="my-element">
+            Blok z id.
+          </div>
+          <div>
+            Blok bez id.
+          </div>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          ]]>
+        </file>
+      </files>
+    </task>
+
+    <p>
+      Jak widzisz używamy znaku `#` po którym znajduje się `id` elementu. Ważne, aby `id` było unikalne w obrębie całej strony, w przeciwnym razie kod może nie działać tak jak tego oczekujesz.
+    </p>
+
+    <p>
+      Selektory można również tworzyć na podstawie klas HTML. Mechanizm ten działa analogicznie jak korzystanie z id, jednak zamiast znaku `#` używamy kropki `.`. Jak zapewne wiesz na stronie może się również znajdować więcej niż jeden element z tą samą klasą.
+    </p>
+
+    <p>
+      Uruchom i przeanalizuj poniższy przykład. Zwróć uwagę na zawartość pliku `index.html`, a szczególnie na użyte w nim klasy.
+    </p>
+
+    <task uuid="b69bee74-4b8a-4929-890d-7808646d7ec4" type="example">
+      <desc>
+        Wybór elementu na podstawie klasy.
+      </desc>
+      <hint></hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('.my-class').css('background-color', 'PowderBlue');
+          });
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <div class="my-class">
+            Blok z klasą my-class.
+          </div>
+          <div class="second-class">
+            Blok z klasą second-class.
+          </div>
+          <p class="my-class">
+            Paragraf z klasą my-class.
+          </p>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          ]]>
+        </file>
+      </files>
+    </task>
+  </section>
+
+  <section title="Kolejne Selektory">
+    <p>
+      Nie zawsze selektory poznane w poprzedniej części są wystarczające, czasami oczekujemy czegoś bardziej skomplikowanego.
+    </p>
+
+    <p>
+      Selektory pokazane powyżej można łączyć. Na przykład jeśli chcesz wybrać elementy `p` posiadające klasę `my-paragraph`, to użyj poniższego selektora. Jest to sposób często używany podczas tworzenia stylów CSS.
+    </p>
+
+    <task uuid="c3bf83eb-0ad4-4f78-94a0-9be24f9df6bb" type="example">
+      <desc>
+        Wybór elementu na podstawie elementu i klasy.
+      </desc>
+      <hint></hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('p.my-class').css('background-color', 'PowderBlue');
+          });
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <div class="my-class">
+            Blok z klasą my-class.
+          </div>
+          <div class="second-class">
+            Blok z klasą second-class.
+          </div>
+          <p class="my-class">
+            Paragraf z klasą my-class.
+          </p>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          ]]>
+        </file>
+      </files>
+    </task>
+
+    <p>
+      Selektory można również łączyć oddzielając je przecinkiem. Poniższy kod spowoduje wybranie elementów z klasą `my-first-class` oraz tych, które posiadają klasę `my-second-class`.
+    </p>
+
+    <task uuid="56bc399d-a115-4f3b-8818-75d09f9f398f" type="example">
+      <desc>
+        Wybór kilku klas.
+      </desc>
+      <hint></hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('.my-first-class, .my-second-class').css('background-color', 'PowderBlue');
+          });
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <p class="my-first-class">
+            Paragraf z klasą my-first-class.
+          </p>
+          <p class="my-second-class">
+            Paragraf z klasą my-second-class.
+          </p>
+          <p class="my-third-class">
+            Paragraf z klasą my-third-class.
+          </p>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          ]]>
+        </file>
+      </files>
+    </task>
+
+    <p>
+      Do poznanych już selektorów możesz dopisać lub używać samodzielnie tych znajdujących się na poniższej liście. Są to dodatkowe selektory jQuery.
+    </p>
+
+    <list>
+      <item title="">
+        `:first` - pierwszy element.
+      </item>
+      <item title="">
+        `:last` - ostatni element.
+      </item>
+      <item title="">
+        `:even` - parzyste elementy licząc od 0, czyli pierwszy element znajduje się na pozycji 0 i jest uważany za element parzysty.
+      </item>
+      <item title="">
+        `:odd` - elementy nieparzyste.
+      </item>
+    </list>
+
+    <p>
+      Jeśli chcesz wybrać parzyste wiersze z tabeli, możesz użyć poniższego kodu.
+    </p>
+
+    <task uuid="ae2e65b5-5522-44a9-bea2-51c698da37d9" type="example">
+      <desc>
+        Wybór parzystych wierszy.
+      </desc>
+      <hint></hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('tr:even').css('background-color', 'PowderBlue');
+          });
+          ]]>
+        </file>
+        <file path="index.html">
+          <![CDATA[
+          <table>
+            <tr>
+              <td>Pole 1</td>
+              <td>Pole 2</td>
+              <td>Pole 3</td>
+            </tr>
+            <tr>
+              <td>Pole 1</td>
+              <td>Pole 2</td>
+              <td>Pole 3</td>
+            </tr>
+            <tr>
+              <td>Pole 1</td>
+              <td>Pole 2</td>
+              <td>Pole 3</td>
+            </tr>
+            <tr>
+              <td>Pole 1</td>
+              <td>Pole 2</td>
+              <td>Pole 3</td>
+            </tr>
+            <tr>
+              <td>Pole 1</td>
+              <td>Pole 2</td>
+              <td>Pole 3</td>
+            </tr>
+          </table>
+          ]]>
+        </file>
+        <file path="application.css">
+          <![CDATA[
+          body {
+            background-color: white;
+          }
+          ]]>
+        </file>
+      </files>
+    </task>
+
+    <task uuid="f837a8cd-1d24-46c7-9351-82421a2949c3" type="regular">
+      <desc>
+        Zmodyfikuj kod tak, aby tylko pierwszemu i ostatniemu elementowi listy został przypisany kolor tła.
+      </desc>
+      <hint>
+        Aby wybrać pierwszy element, do selektora `li` dopisz `:first`. Aby wybrać ostatni, dopisz `:last`.
+
+        Żeby wybrać pierwszy i ostatni element, oddziel dwa selektory przecinkiem.
+      </hint>
+      <files>
+        <file path="application.js">
+          <![CDATA[
+          $(function(){
+            $('li').css('background-color', 'PowderBlue');
+          });
+          ]]>
+        </file>
+        <file path="index.html" readOnly="true">
+          <![CDATA[
+          <ul>
+            <li>Element 1</li>
+            <li>Element 2</li>
+            <li>Element 3</li>
+            <li>Element 4</li>
+          </ul>
+          <p>
+            Paragraf poza listą.
+          </p>
+          ]]>
+        </file>
+        <file path="solution.js">
+          <![CDATA[
+          $(function(){
+            $('li:first, li:last').css('background-color', 'PowderBlue');
+          });
+          ]]>
+        </file>
+      </files>
+      <checker>
+        <![CDATA[
+        function () {
+          var error;
+
+          $('body').append($('<p id="cq_blue">Color</p>').css('background-color', 'PowderBlue'));
+          $('body').append($('<p id="cq_transparent">Color</p>'));
+
+          var blue = $('#cq_blue').css('background-color');
+          var transparent = $('#cq_transparent').css('background-color');
+
+          if ($('li:eq(0)').css('background-color') != blue)
+            error = '"Element 1" posiada niewłaściwy kolor.';
+          else if ($('li:eq(1)').css('background-color') != transparent)
+            error = '"Element 2" posiada niewłaściwy kolor.';
+          else if ($('li:eq(2)').css('background-color') != transparent)
+            error = '"Element 3" posiada niewłaściwy kolor.';
+          else if ($('li:eq(3)').css('background-color') != blue)
+            error = '"Element 4" posiada niewłaściwy kolor.';
+
+          return {
+            valid: !error,
+            reason: error
+          }
+        }
+        ]]>
+      </checker>
+    </task>
+
+  </section>
+
+  <section title="Podsumowanie">
+    <p>
+      W tej lekcji miałeś okazję pierwszy raz napisać swój własny kod jQuery i przekonać się jak on działa. Tym razem zajęliśmy się przede wszystkim ogólną składnią oraz selektorami. Oprócz tego zobaczyłeś jeszcze takie metody jak `hide`, `show` i `css`, które ułatwiły nam lepsze poznanie omawianych zagadnień.
+    </p>
+
+    <p>
+      Co prawda lista selektorów jQuery jest jeszcze bardziej rozbudowana, niż miałeś okazję zobaczyć w tym rozdziale, jednak uważamy, że na początek w zupełności wystarczy Ci to, co miałeś okazję poznać w tym rozdziale. Gdy poznasz kolejne ważne elementy jQuery i stwierdzisz, że brakuje Ci wiedzy na temat selektorów, możesz się bardziej wgłębić w to zagadnienie.
+    </p>
+  </section>
+
+</document>
